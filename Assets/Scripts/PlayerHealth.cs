@@ -52,4 +52,15 @@ public class PlayerHealth : MonoBehaviour
         GameManager.I?.OnPlayerDeath();
         // 추가: 리스폰/게임오버 UI 로직은 GameManager에서 처리
     }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        UpdateUI();
+    }
 }

@@ -1,10 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Main inventory system that persists across scenes.
+/// Manages item storage for both hotbar and inventory UI.
+/// </summary>
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-    void Awake() => instance = this;
+
+    void Awake()
+    {
+        // Singleton pattern with DontDestroyOnLoad
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("✅ Inventory: Initialized and persisting across scenes");
+        }
+        else
+        {
+            Debug.LogWarning("⚠ Inventory: Duplicate instance detected - destroying");
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     [Header("Inventory Settings")]
     public int capacity = 20;
@@ -12,6 +32,29 @@ public class Inventory : MonoBehaviour
 
     [Header("UI References")]
     public InventoryUI inventoryUI;
+
+    private void Start()
+    {
+        // Re-find UI references in the current scene if null
+        RefreshUIReferences();
+        RefreshUI();
+    }
+
+    /// <summary>
+    /// Find and update UI references in the current scene (Public for external calls)
+    /// </summary>
+    public void RefreshUIReferences()
+    {
+        if (inventoryUI == null)
+        {
+            inventoryUI = FindAnyObjectByType<InventoryUI>();
+            if (inventoryUI != null)
+                Debug.Log("✅ Inventory: Found InventoryUI in current scene");
+        }
+
+        // Also refresh UI after finding references
+        RefreshUI();
+    }
 
     [Header("World Item Settings")]
     public GameObject itemWorldPrefab; // 드롭 시 생성할 아이템 프리팹

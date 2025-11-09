@@ -154,5 +154,19 @@ public class PlayerStamina : MonoBehaviour
     {
         return IsExhausted ? exhaustedSpeedMultiplier : 1f;
     }
+
+    public float GetCurrentStamina()
+    {
+        return currentStamina;
+    }
+
+    public void ResetStamina()
+    {
+        currentStamina = maxStamina;
+        isSprinting = false;
+        isWalking = false;
+        lastUseTime = -99f;
+        UpdateSlider();
+    }
 }
 // ...existing code...
