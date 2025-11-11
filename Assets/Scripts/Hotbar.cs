@@ -7,7 +7,7 @@ public class Hotbar : MonoBehaviour
     [Header("Slots Parent (Grid Layout Object)")]
     public Transform slotsParent;
 
-    private Slot[] slots;
+    private ItemSlot[] slots;
 
     void Awake()
     {
@@ -15,14 +15,15 @@ public class Hotbar : MonoBehaviour
 
         // 슬롯 초기화 (Awake 단계에서 미리 잡기)
         if (slotsParent != null)
-            slots = slotsParent.GetComponentsInChildren<Slot>();
+            slots = slotsParent.GetComponentsInChildren<ItemSlot>();
 
-        // 각 슬롯에 올바른 index 부여
+        // 각 슬롯에 올바른 index 부여 및 SlotType 설정
         if (slots != null)
         {
             for (int i = 0; i < slots.Length; i++)
             {
                 slots[i].index = i; // Hotbar는 항상 0부터 시작
+                slots[i].slotType = SlotType.Hotbar;
             }
         }
     }
@@ -53,20 +54,29 @@ public class Hotbar : MonoBehaviour
     /// </summary>
     public void UpdateUI()
     {
+        Debug.Log($"[Hotbar] 🔄 UpdateUI called");
+
         if (slots == null)
         {
             if (slotsParent != null)
-                slots = slotsParent.GetComponentsInChildren<Slot>();
+            {
+                slots = slotsParent.GetComponentsInChildren<ItemSlot>();
+                // Set SlotType when lazy-initializing
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    slots[i].slotType = SlotType.Hotbar;
+                }
+            }
             else
             {
-                Debug.LogWarning("Hotbar.UpdateUI: slotsParent not assigned.");
+                Debug.LogWarning("[Hotbar] ⚠ UpdateUI: slotsParent not assigned.");
                 return;
             }
         }
 
         if (Inventory.instance == null)
         {
-            Debug.LogWarning("Hotbar.UpdateUI: Inventory.instance is null.");
+            Debug.LogWarning("[Hotbar] ⚠ UpdateUI: Inventory.instance is null.");
             return;
         }
 
@@ -76,20 +86,26 @@ public class Hotbar : MonoBehaviour
             Inventory.instance.Initialize(Inventory.instance.capacity);
         }
 
+        Debug.Log($"[Hotbar] Updating {slots.Length} slots");
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].index = i; // 인덱스 동기화 (중요!)
+            slots[i].slotType = SlotType.Hotbar; // SlotType 동기화
             if (Inventory.instance.items != null &&
                 i < Inventory.instance.items.Length &&
                 Inventory.instance.items[i] != null)
             {
                 slots[i].AddItem(Inventory.instance.items[i]);
+                Debug.Log($"[Hotbar]   Slot {i}: {Inventory.instance.items[i].itemName}");
             }
             else
             {
                 slots[i].ClearSlot();
+                Debug.Log($"[Hotbar]   Slot {i}: Empty");
             }
         }
+        Debug.Log($"[Hotbar] ✅ UpdateUI complete");
     }
 
     /// <summary>
@@ -100,7 +116,7 @@ public class Hotbar : MonoBehaviour
         if (slots == null)
         {
             if (slotsParent != null)
-                slots = slotsParent.GetComponentsInChildren<Slot>();
+                slots = slotsParent.GetComponentsInChildren<ItemSlot>();
             else
                 return -1;
         }

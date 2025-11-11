@@ -84,8 +84,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5183848327062918528}
-  - component: {fileID: 2998205359877421356}
   - component: {fileID: 9028662090308153577}
+  - component: {fileID: 8154591342272977128}
   - component: {fileID: 8475629412232660876}
   m_Layer: 0
   m_Name: Slot
@@ -114,20 +114,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2998205359877421356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3490353036543437044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7f85b5fe4f3fac48aaaa9320499f34d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Slot
-  icon: {fileID: 5109545553754830273}
-  index: 0
 --- !u!222 &9028662090308153577
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -136,6 +122,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3490353036543437044}
   m_CullTransparentMesh: 1
+--- !u!114 &8154591342272977128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3490353036543437044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ad08f56f2a17940ae00d6e83142d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
+  icon: {fileID: 5109545553754830273}
+  slotType: 0
+  index: 0
+  showDebugLogs: 1
 --- !u!114 &8475629412232660876
 MonoBehaviour:
   m_ObjectHideFlags: 0

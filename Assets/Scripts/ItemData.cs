@@ -12,6 +12,9 @@ public class ItemData : ScriptableObject
     public bool isStackable = true;
     public int maxStackSize = 99;
 
+    [Header("World Object")]
+    public GameObject worldPrefab;  // Prefab to spawn when dropped into world
+
     [HideInInspector]
     public int stackCount = 1;      // Runtime stack count (not serialized in ScriptableObject)
 

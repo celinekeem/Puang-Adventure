@@ -340,27 +340,20 @@ public class UI_MasterController : MonoBehaviour
 
     /// <summary>
     /// Enable/disable HUD interaction (but keep visible)
+    /// IMPORTANT: HUD (especially Hotbar) should ALWAYS be interactable even when Master UI is open
+    /// This allows drag & drop between Hotbar and Inventory
     /// </summary>
     private void SetHUDInteractable(bool interactable)
     {
-        if (hudCanvas == null) return;
+        // ✅ HUD는 항상 상호작용 가능해야 함!
+        // 인벤토리가 열려있을 때도 핫바와 드래그 앤 드롭이 작동해야 함
+        // 따라서 이 메서드는 아무 것도 하지 않음
 
-        // Disable GraphicRaycaster to prevent clicking HUD elements
-        var raycaster = hudCanvas.GetComponent<UnityEngine.UI.GraphicRaycaster>();
-        if (raycaster != null)
-        {
-            raycaster.enabled = interactable;
-        }
+        // REMOVED: GraphicRaycaster disable/enable
+        // REMOVED: CanvasGroup interactable/blocksRaycasts control
 
-        // Alternatively, use CanvasGroup
-        var canvasGroup = hudCanvas.GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = hudCanvas.gameObject.AddComponent<CanvasGroup>();
-        }
-
-        canvasGroup.interactable = interactable;
-        canvasGroup.blocksRaycasts = interactable;
+        // HUD는 항상 활성화 상태 유지
+        return;
     }
 
     /// <summary>

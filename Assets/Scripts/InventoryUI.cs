@@ -3,7 +3,7 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     public Transform slotsParent;
-    private Slot[] slots;
+    private ItemSlot[] slots;
 
     void Start()
     {
@@ -43,36 +43,54 @@ public class InventoryUI : MonoBehaviour
                 return;
             }
 
-            slots = slotsParent.GetComponentsInChildren<Slot>();
+            slots = slotsParent.GetComponentsInChildren<ItemSlot>();
+
+            // Set SlotType for all inventory slots
+            for (int i = 0; i < slots.Length; i++)
+            {
+                slots[i].slotType = SlotType.Inventory;
+            }
         }
     }
 
     public void UpdateUI()
     {
+        Debug.Log($"[InventoryUI] 🔄 UpdateUI called");
         EnsureInitialized();
 
         if (slots == null)
         {
-            Debug.LogWarning("InventoryUI.UpdateUI: slots not initialized. Skipping UI update.");
+            Debug.LogWarning("[InventoryUI] ⚠ UpdateUI: slots not initialized. Skipping UI update.");
             return;
         }
 
         if (Inventory.instance == null)
         {
-            Debug.LogWarning("InventoryUI.UpdateUI: Inventory.instance is null. Skipping UI update.");
+            Debug.LogWarning("[InventoryUI] ⚠ UpdateUI: Inventory.instance is null. Skipping UI update.");
             return;
         }
+
         int hotOffset = Hotbar.instance != null ? Hotbar.instance.SlotCount : 0;
+        Debug.Log($"[InventoryUI] Updating {slots.Length} slots (hotOffset={hotOffset})");
+
         for (int i = 0; i < slots.Length; i++)
         {
             // assign index for drag/drop operations (inventory indices start after hotbar slots)
             int idx = hotOffset + i;
-            slots[i].gameObject.GetComponent<Slot>().index = idx;
+            slots[i].index = idx;
+            slots[i].slotType = SlotType.Inventory;
 
             if (Inventory.instance.items != null && idx < Inventory.instance.items.Length && Inventory.instance.items[idx] != null)
+            {
                 slots[i].AddItem(Inventory.instance.items[idx]);
+                Debug.Log($"[InventoryUI]   Slot {i} (idx={idx}): {Inventory.instance.items[idx].itemName}");
+            }
             else
+            {
                 slots[i].ClearSlot();
+                Debug.Log($"[InventoryUI]   Slot {i} (idx={idx}): Empty");
+            }
         }
+        Debug.Log($"[InventoryUI] ✅ UpdateUI complete");
     }
 }

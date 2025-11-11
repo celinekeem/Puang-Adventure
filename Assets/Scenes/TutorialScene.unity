@@ -513,6 +513,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 954126680493501005, guid: c8a87874c0b3e1649b39e960632e474c, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1155243129627714712, guid: c8a87874c0b3e1649b39e960632e474c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3831,6 +3835,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -310
       objectReference: {fileID: 0}
+    - target: {fileID: 954126680493501005, guid: d750908f62aec4a40aa757319780a867, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 954126680493501005, guid: d750908f62aec4a40aa757319780a867, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1092030913597240608, guid: d750908f62aec4a40aa757319780a867, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3966,6 +3978,14 @@ PrefabInstance:
     - target: {fileID: 1417192459620290764, guid: d750908f62aec4a40aa757319780a867, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -440
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593523129373233805, guid: d750908f62aec4a40aa757319780a867, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0031738281
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593523129373233805, guid: d750908f62aec4a40aa757319780a867, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 14.368774
       objectReference: {fileID: 0}
     - target: {fileID: 1939124003683099413, guid: d750908f62aec4a40aa757319780a867, type: 3}
       propertyPath: m_AnchorMax.y
