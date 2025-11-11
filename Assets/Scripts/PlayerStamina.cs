@@ -6,7 +6,7 @@ public class PlayerStamina : MonoBehaviour
 {
     [Header("Stamina")]
     [SerializeField] private float maxStamina = 100f;
-    [SerializeField] private Slider staminaSlider; // Inspector에서 STBar 할당
+    [SerializeField] private Slider staminaSlider; // Optional: can be assigned manually or auto-found via UIReferenceManager
     [SerializeField] private float regenDelay = 1.5f;            // 마지막 소모 후 회복 시작까지 대기
     [SerializeField] private float regenRate = 20f;              // 초당 회복량 (정상)
     [SerializeField] private float exhaustedRegenRate = 6f;      // 0일 때 회복 속도 (느림)
@@ -34,25 +34,37 @@ public class PlayerStamina : MonoBehaviour
     }
 
     /// <summary>
-    /// Reconnect to Stamina Slider in the current scene
+    /// Reconnect to Stamina Slider in the current scene using UIReferenceManager
+    /// NEW STRUCTURE: Uses HUD_Canvas/STBar (not Canvas_UI/STBar)
     /// </summary>
     public void RefreshUIReference()
     {
-        // Find STBar slider in the scene if reference is missing
+        // Try to get reference from UIReferenceManager first
+        if (staminaSlider == null && UIReferenceManager.Instance != null)
+        {
+            staminaSlider = UIReferenceManager.Instance.GetStaminaSlider();
+            if (staminaSlider != null)
+            {
+                Debug.Log("✅ PlayerStamina: Connected to STBar via UIReferenceManager");
+            }
+        }
+
+        // Fallback: Find STBar slider in the scene if UIReferenceManager didn't provide it
         if (staminaSlider == null)
         {
-            GameObject stBarObj = GameObject.Find("Canvas_UI/STBar");
+            // NEW STRUCTURE: HUD_Canvas/STBar (not Canvas_UI/STBar)
+            GameObject stBarObj = GameObject.Find("HUD_Canvas/STBar");
             if (stBarObj != null)
             {
                 staminaSlider = stBarObj.GetComponent<Slider>();
                 if (staminaSlider != null)
                 {
-                    Debug.Log("✅ PlayerStamina: Reconnected to STBar in scene");
+                    Debug.Log("✅ PlayerStamina: Reconnected to STBar in HUD_Canvas");
                 }
             }
             else
             {
-                Debug.LogWarning("⚠ PlayerStamina: STBar not found in scene at Canvas_UI/STBar");
+                Debug.LogWarning("⚠ PlayerStamina: STBar not found in scene at HUD_Canvas/STBar. Make sure UI structure is correct.");
             }
         }
 
@@ -61,6 +73,10 @@ public class PlayerStamina : MonoBehaviour
         {
             staminaSlider.maxValue = maxStamina;
             staminaSlider.value = currentStamina;
+        }
+        else
+        {
+            Debug.LogWarning("⚠ PlayerStamina: staminaSlider is still null after RefreshUIReference. UI will not update.");
         }
     }
 

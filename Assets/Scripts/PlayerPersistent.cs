@@ -175,15 +175,6 @@ public class PlayerPersistent : MonoBehaviour
     /// </summary>
     private void ReconnectInventoryUI()
     {
-        // Reconnect InventoryToggle to the new scene's Inventory UI
-        var inventoryToggles = FindObjectsByType<InventoryToggle>(FindObjectsSortMode.None);
-
-        if (inventoryToggles.Length == 0)
-        {
-            Debug.LogWarning("⚠ PlayerPersistent: No InventoryToggle found in scene");
-            return;
-        }
-
         // Refresh Inventory UI references
         if (Inventory.instance != null)
         {

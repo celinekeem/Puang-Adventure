@@ -100,6 +100,24 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleMasterUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""9438b02c-d7ac-43f5-a17b-4aa6ef4d32ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CloseMasterUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ca2d0f7-bbf3-45d9-a9c8-6035cef6803b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -113,6 +131,28 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                     ""action"": ""InventoryToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""857244ba-9657-4549-8543-01294c5ddbf6"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleMasterUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""760f2594-0ff0-4d46-8a4b-a8d2f5cac1d4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseMasterUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +162,8 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_InventoryToggle = m_UI.FindAction("InventoryToggle", throwIfNotFound: true);
+        m_UI_ToggleMasterUI = m_UI.FindAction("ToggleMasterUI", throwIfNotFound: true);
+        m_UI_CloseMasterUI = m_UI.FindAction("CloseMasterUI", throwIfNotFound: true);
     }
 
     ~@UIControls()
@@ -203,6 +245,8 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_InventoryToggle;
+    private readonly InputAction m_UI_ToggleMasterUI;
+    private readonly InputAction m_UI_CloseMasterUI;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -218,6 +262,14 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/InventoryToggle".
         /// </summary>
         public InputAction @InventoryToggle => m_Wrapper.m_UI_InventoryToggle;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/ToggleMasterUI".
+        /// </summary>
+        public InputAction @ToggleMasterUI => m_Wrapper.m_UI_ToggleMasterUI;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/CloseMasterUI".
+        /// </summary>
+        public InputAction @CloseMasterUI => m_Wrapper.m_UI_CloseMasterUI;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -247,6 +299,12 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
             @InventoryToggle.started += instance.OnInventoryToggle;
             @InventoryToggle.performed += instance.OnInventoryToggle;
             @InventoryToggle.canceled += instance.OnInventoryToggle;
+            @ToggleMasterUI.started += instance.OnToggleMasterUI;
+            @ToggleMasterUI.performed += instance.OnToggleMasterUI;
+            @ToggleMasterUI.canceled += instance.OnToggleMasterUI;
+            @CloseMasterUI.started += instance.OnCloseMasterUI;
+            @CloseMasterUI.performed += instance.OnCloseMasterUI;
+            @CloseMasterUI.canceled += instance.OnCloseMasterUI;
         }
 
         /// <summary>
@@ -261,6 +319,12 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
             @InventoryToggle.started -= instance.OnInventoryToggle;
             @InventoryToggle.performed -= instance.OnInventoryToggle;
             @InventoryToggle.canceled -= instance.OnInventoryToggle;
+            @ToggleMasterUI.started -= instance.OnToggleMasterUI;
+            @ToggleMasterUI.performed -= instance.OnToggleMasterUI;
+            @ToggleMasterUI.canceled -= instance.OnToggleMasterUI;
+            @CloseMasterUI.started -= instance.OnCloseMasterUI;
+            @CloseMasterUI.performed -= instance.OnCloseMasterUI;
+            @CloseMasterUI.canceled -= instance.OnCloseMasterUI;
         }
 
         /// <summary>
@@ -308,5 +372,19 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventoryToggle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleMasterUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleMasterUI(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CloseMasterUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCloseMasterUI(InputAction.CallbackContext context);
     }
 }

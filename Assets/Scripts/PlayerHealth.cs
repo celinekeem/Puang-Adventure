@@ -11,7 +11,7 @@ using UnityEngine.Audio;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private Slider hpSlider; // Canvas_UI 안의 Slider 할당
+    [SerializeField] private Slider hpSlider; // Optional: can be assigned manually or auto-found via UIReferenceManager
 
     private int currentHealth;
 
@@ -22,25 +22,37 @@ public class PlayerHealth : MonoBehaviour
     }
 
     /// <summary>
-    /// Reconnect to HP Slider in the current scene
+    /// Reconnect to HP Slider in the current scene using UIReferenceManager
+    /// NEW STRUCTURE: Uses HUD_Canvas/HPBar (not Canvas_UI/HPBar)
     /// </summary>
     public void RefreshUIReference()
     {
-        // Find HPBar slider in the scene if reference is missing
+        // Try to get reference from UIReferenceManager first
+        if (hpSlider == null && UIReferenceManager.Instance != null)
+        {
+            hpSlider = UIReferenceManager.Instance.GetHPSlider();
+            if (hpSlider != null)
+            {
+                Debug.Log("✅ PlayerHealth: Connected to HPBar via UIReferenceManager");
+            }
+        }
+
+        // Fallback: Find HPBar slider in the scene if UIReferenceManager didn't provide it
         if (hpSlider == null)
         {
-            GameObject hpBarObj = GameObject.Find("Canvas_UI/HPBar");
+            // NEW STRUCTURE: HUD_Canvas/HPBar (not Canvas_UI/HPBar)
+            GameObject hpBarObj = GameObject.Find("HUD_Canvas/HPBar");
             if (hpBarObj != null)
             {
                 hpSlider = hpBarObj.GetComponent<Slider>();
                 if (hpSlider != null)
                 {
-                    Debug.Log("✅ PlayerHealth: Reconnected to HPBar in scene");
+                    Debug.Log("✅ PlayerHealth: Reconnected to HPBar in HUD_Canvas");
                 }
             }
             else
             {
-                Debug.LogWarning("⚠ PlayerHealth: HPBar not found in scene at Canvas_UI/HPBar");
+                Debug.LogWarning("⚠ PlayerHealth: HPBar not found in scene at HUD_Canvas/HPBar. Make sure UI structure is correct.");
             }
         }
 
@@ -49,6 +61,10 @@ public class PlayerHealth : MonoBehaviour
         {
             hpSlider.maxValue = maxHealth;
             hpSlider.value = currentHealth;
+        }
+        else
+        {
+            Debug.LogWarning("⚠ PlayerHealth: hpSlider is still null after RefreshUIReference. UI will not update.");
         }
     }
 
